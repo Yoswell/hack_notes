@@ -1,0 +1,268 @@
+## FUZZER
+gobuster dir -u http://target.com -w /path/to/wordlist.txt
+dirb http://target-com /path/to/wordlist.txt
+ffuf -u http://target-com/FUZZ -w wordlist.txt
+nikto -h http://target-com
+
+## RSA
+openssl rsautl -decrypt -inkey private.pem -in encrypted.bin -out flag.txt
+openssl rsautl -encrypt -inkey public.pem -pubin -in flag.txt -out encrypted.bin
+
+## BASE64
+base64
+base64 -d
+echo -n "texto" | base64
+echo -n "dGV4dG8=" | base64 -d
+
+## PCAP Analysis
+tshark -r capture.pcap -Y "http" -T fields -e http.host -e http.request.uri
+tshark -r capture.pcap -Y "dns" -T fields -e dns.qry.name
+tshark -r capture.pcap -Y "ftp" -T fields -e ftp.request.arg -e ftp.response.arg
+tshark -r capture.pcap -Y "icmp" -T fields -e ip.src -e ip.dst -e icmp.type
+tshark -r capture.pcap -qz io,phs
+tshark -r capture.pcap -Y "http.request" -T fields -e http.host -e http.user_agent
+tshark -r capture.pcap -Y "dns.flags.response == 0" -T fields -e dns.qry.name
+tshark -r capture.pcap -Y "http.request.method == \"POST\"" -T json
+tshark -r capture.pcap -Y "tcp.analysis.retransmission" -T fields -e ip.src -e tcp.srcport
+tshark -r capture.pcap -Y "http contains \"password\"" -T fields -e http.host -e http.request.uri
+tshark -r capture.pcap -Y "smb || nbns || dcerpc || nbss || dns"
+tcpdump -r capture.pcap -n 'tcp[13] = 18'
+tcpdump -r capture.pcap -A 'tcp port 80 and (tcp[((tcp[12:1] & 0xf0) >> 2):4] = 0x504f5354)'
+
+## MEMORY ANALYSIS
+volatility -f memory.dmp imageinfo
+volatility -f memory.dmp --profile=Win7SP1x64 pslist
+volatility -f memory.dmp --profile=Win7SP1x64 cmdline
+volatility -f memory.dmp --profile=Win7SP1x64 filescan | grep -i password
+volatility -f memory.dmp --profile=Win7SP1x64 hashdump
+volatility -f memory.dmp --profile=Win7SP1x64 iehistory
+volatility -f memory.dmp --profile=Win7SP1x64 clipboard
+
+## OFFICE DOCUMENTS
+oledump.py document.doc
+oletools-rtfobj document.rtf
+officeparser.py document.docx
+mraptor document.doc
+exiftool -a document.xls
+xls2csv document.xls
+pdfid.py document.pdf
+pdf-parser.py document.pdf
+peepdf -i document.pdf
+
+## REVERSE ENGINEERING
+Ghidra
+IDA Pro
+radare2
+Cutter
+Binary Ninja
+Hopper
+x64dbg/x32dbg
+Frida
+GEF/GDB Enhanced Features
+Pwntools
+ROPgadget
+Ropper
+angr
+radare2
+Cutter
+Binary Ninja
+Hopper
+x64dbg/x32dbg
+Frida
+GEF/GDB Enhanced Features
+Pwntools
+ROPgadget
+Ropper
+angr
+binwalk
+upx -d binary
+strings -e l binary
+objdump -d binary
+readelf -a binary
+pwn checksec binary
+
+## DEBUGGING
+file binary
+strings binary | less
+strace ./binary
+rabin2 -I binary
+rabin2 -z binary
+rabin2 -s binary
+rabin2 -i binary
+rabin2 -l binary
+objdump -d binary | less
+nm binary
+pattern create 100
+pattern offset $eip
+readelf -h binary
+checksec --file=binary
+pwn checksec binary
+ltrace ./binary
+gdb -q ./binary
+gdb-peda$ checksec
+gdb-peda$ pattern create 100
+gdb-peda$ pattern offset $eip
+gdb-peda$ x/20wx $esp
+gdb-peda$ info functions
+gdb-peda$ disassemble main
+gdb-peda$ break *main
+gdb-peda$ run $(python -c 'print "A"*100')
+gdb-peda$ x/s $eax
+gdb-peda$ vmmap
+gdb-peda$ find "/bin/sh"
+gdb-peda$ ropsearch "pop rdi; ret"
+gdb-peda$ ropgadget --binary binary
+gdb-peda$ x/10i $pc-20
+
+## PRIVILEGE ESCALATION
+sudo -l
+find / -perm -u=s -type f 2>/dev/null
+uname -a
+
+## WINDOWS
+whoami /priv
+systeminfo
+net user
+net localgroup administrators
+
+## RED
+nmap -sV -sC -p- -T4 target
+masscan -p1-65535 --rate=1000 target
+rustscan -a target -- -A
+
+## NETWORK ANALYSIS
+wireshark
+tshark -r capture.pcap -Y "http.request" -T fields -e http.host -e http.request.uri
+tcpdump -r capture.pcap -n 'tcp port 80'
+
+## PASSWORD CRACKING
+john --wordlist=rockyou.txt hash.txt
+john --format=NT hash.txt
+hashcat -m 0 hash.txt rockyou.txt
+hashcat -m 1000 hash.txt -a 3 ?l?l?l?l?l
+
+## DATA EXTRACTION AND ANALYSIS
+binwalk -e file.jpg
+binwalk -e file.bin
+xxd file.bin | less
+hexdump -C file.bin | less
+file file.bin
+foremost -i file.bin -o output_dir
+exiftool image.jpg
+exiv2 -p a image.jpg
+zsteg -a image.png
+zsteg -E "b1,rgb,lsb,xy" image.png > hidden_data
+pngcheck -v image.png
+pngcrush -check file.png
+jsteg reveal image.jpg
+strings file.bin | grep -i flag
+steghide extract -sf image.jpg
+steghide info image.jpg
+stegsolve.jar image.jpg
+stegoveritas image.jpg
+stegoveritas -imageRot -trailing -colorMap image.jpg
+stegpy -p password image.jpg
+stegdetect -t jpg image.jpg
+stegbreak -t o -f wordlist.txt image.jpg
+stegsnow -C -p password hidden.txt
+stegsnow -C -p password -f hidden.txt output.txt
+stegolsb stegano -i image.png -s secret.txt -o output.png -n 2
+stegolsb stegano -r -i output.png -n 2 -b 1000
+stegpy -p "pass" image.png
+stegpy -r image.png
+stegsnow -C -p "pass" -m "message" input.txt output.txt
+stegsnow -C -p "pass" output.txt
+stegano-lsb -h image.png -m "message" -o output.png
+stegano-lsb -r -i output.png
+stegano-red -i image.png -m "message" -o output.png
+stegano-red -r -i output.png
+openstego embed -mf secret.txt -cf image.jpg -sf output.jpg
+openstego extract -sf output.jpg -p "pass" -xf output.txt
+outguess -k "pass" -d secret.txt image.jpg output.jpg
+outguess -k "pass" -r output.jpg secret.txt
+outguess -k "secret" -d hidden.txt image.jpg output.jpg
+outguess -k "secret" -r output.jpg extracted.txt
+
+## SEARCH
+find /path -type f -exec grep -l "pattern" {} \;
+find /path -type f -name "*.txt" -exec grep -i "password" {} \;
+find /path -type f -exec file {} \; | grep "text"
+find /path -type f -size +1M -exec ls -lh {} \;
+find / -type f -perm -4000 -exec ls -la {} 2>/dev/null \;
+find /path -type f -print0 | xargs -0 grep -l "pattern"
+find /path -name "*.txt" -print0 | xargs -0 rm
+find /path -type f -name "*.log" -print0 | xargs -0 ls -la
+find /path -type f -name "*.log" -print0 | xargs -0 -P 4 grep -H "error"
+find /path -type f -name "*.gz" -print0 | parallel -0 -j 4 "gunzip -c {} > {/.}"
+find /path -type f -name "*.csv" -print0 | parallel -0 -X cat > combined.csv
+
+## RECOMMENDED TOOLS
+gdb-peda
+pwntools
+python3-pip
+git
+tmux / screen
+vim / nano
+wget / curl
+python3-venv
+seclists
+gobuster
+ffuf
+exiftool
+steghide
+zsteg
+volatility
+
+## REMOTE FILE SHARING
+nc -lvnp 4444 > archivo_recibido
+nc -w 3 <IP_REMOTA> 4444 < archivo_a_enviar
+nc -w 3 <IP_EMISORA> 4444 | tar xvzf -
+tar czf - directorio/ | nc -lvnp 4444
+
+## PYTHON
+python3 -m http.server 8000
+python3-pip
+python3-venv
+python3 -m http.server 8000
+python3 -m http.server --bind 0.0.0.0 8000
+
+## DATA TRANSFER
+scp archivo.txt usuario@<IP>:/ruta/destino/
+scp -r directorio/ usuario@<IP>:/ruta/destino/
+scp usuario@<IP>:/ruta/archivo.txt .
+rsync -avz -e ssh directorio/ usuario@<IP>:/ruta/destino/
+rsync -avz -e ssh usuario@<IP>:/ruta/remota/ directorio_local/
+rsync -avz --partial --progress -e ssh archivo_grande usuario@<IP>:~/
+
+## TRANSFER WEB SERVICES
+curl --upload-file archivo.txt https://transfer.sh/archivo.txt
+croc send archivo.txt
+croc <código>
+
+## SYSTEM COMMANDS
+lscpu
+free -h
+df -h
+du -sh *
+uname -a
+who
+w
+last
+ps aux
+top/htop
+
+## TEXT PROCESSING
+cat archivo | sort | uniq -c | sort -nr
+cat /etc/passwd
+cat file.txt | tr -d '\r' > newfile.txt
+cat urls.txt | xargs -P 10 -I {} wget -q {}
+cat hashes.txt | xargs -I{} sh -c "echo -n {}: && echo {}" | md5sum
+cat domains.txt | parallel -j 10 "host {} | grep 'has address' | cut -d' ' -f4"
+cat /etc/issue
+cat /proc/cpuinfo
+cat archivo | sort | uniq -c | sort -nr
+awk '{print $1}' archivo
+sed 's/buscar/reemplazar/g' archivo
+cut -d':' -f1 /etc/passwd
+tr '[:lower:]' '[:upper:]' < archivo
+tr ' ' '\n' < archivo | sort | uniq -c | sort -nr
