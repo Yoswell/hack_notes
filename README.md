@@ -8,10 +8,10 @@ The goal is to document practical techniques, tools, and methodologies encounter
 
 ### How to Use This Repository
 
-  * Navigate to specific categories for targeted information.
-  * Use the cheatsheets for quick command references.
-  * Refer to writeups for step-by-step solutions to challenges.
-  * Contribute by adding new notes or improving existing ones.
+* Navigate to specific categories for targeted information.
+* Use the cheatsheets for quick command references.
+* Refer to writeups for step-by-step solutions to challenges.
+* Contribute by adding new notes or improving existing ones.
 
 For additional resources, check the [cheatsheets](/cheatsheets/) directory for quick references on tools and techniques.
 
